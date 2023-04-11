@@ -109,4 +109,47 @@ WantedBy=multi-user.target
 
  **-2 Дополнение unit-файл httpd.**
  
+Создал копию файла юнит-файла httpd.service и назвол ее httpd@.service:
+
+```
+sudo cp /usr/lib/systemd/system/httpd.service /etc/systemd/system/httpd@.service
+```
+
+Отредактировал файл юнита httpd@.service, таким образом чтобы установить путь к конфигурационному файлу, содержащемуся в директории /etc/httpd/conf/%i/:
+
+```
+sudo nano /etc/systemd/system/httpd@.service
+```
+
+Заменил строку "ExecStart=/usr/sbin/httpd $OPTIONS -DFOREGROUND" на "ExecStart=/usr/sbin/httpd -f /etc/httpd/conf/%i/httpd.conf $OPTIONS -DFOREGROUND"
+
+Создал директории для каждого экземпляра сервера и скопировал в них соответствующий файл конфигурации:
+
+```
+sudo mkdir /etc/httpd/conf/first
+sudo mkdir /etc/httpd/conf/second
+sudo cp /etc/httpd/conf/httpd.conf /etc/httpd/conf/first/
+sudo cp /etc/httpd/conf/httpd.conf /etc/httpd/conf/second/
+```
+
+Отредактировал каждый файл конфигурации, чтобы настроить его в соответствии с требованиями:
+
+```
+sudo nano /etc/httpd/conf/first/httpd.conf
+sudo nano /etc/httpd/conf/second/httpd.conf
+```
+
+Запустил каждый экземпляр сервера Apache в отдельном процессе:
+
+```
+sudo systemctl start httpd@first.service
+sudo systemctl start httpd@second.service
+```
+Проверил работу юнитов.
+
+```
+[root@kernel-update run]# ss -tnulp | grep httpd
+tcp   LISTEN 0      128                *:8080            *:*    users:(("httpd",pid=22763,fd=4),("httpd",pid=22762,fd=4),("httpd",pid=22761,fd=4),("httpd",pid=22759,fd=4))
+tcp   LISTEN 0      128                *:80              *:*    users:(("httpd",pid=22543,fd=4),("httpd",pid=22542,fd=4),("httpd",pid=22541,fd=4),("httpd",pid=22539,fd=4))
+```
 
