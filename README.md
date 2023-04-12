@@ -65,11 +65,11 @@ WantedBy=multi-user.target
 Проверил работу. ``tail -f /var/log/messages``  
 ```
 Apr 10 17:48:57 terraform-instance systemd: Starting My watchlog service...
-Apr 10 17:48:57 terraform-instance root: Mon Apr 10 17:48:57 +05 2019: I found word,
+Apr 10 17:48:57 terraform-instance root: Mon Apr 10 17:48:57 +05 2023: I found word,
 master!
 Apr 10 17:48:57 terraform-instance systemd: Started My watchlog service.
 Apr 10 17:49:27 terraform-instance systemd: Starting My watchlog service...
-Apr 10 17:49:27 terraform-instance root: Tue Feb 26 16:49:27 +05 2019: I found word,
+Apr 10 17:49:27 terraform-instance root: Mon Apr 10 17:48:57 +05 2023: I found word,
 master!
 Apr 10 17:49:27 terraform-instance systemd: Started My watchlog service.
 ```
